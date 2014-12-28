@@ -8,38 +8,16 @@ main = do
   print $ game_of_stones [10, 15, 20, 12, 1, 20]    -- -1
 
 game_of_stones :: [Int] -> Int
-game_of_stones [] = 0
-game_of_stones [x] = 0
-game_of_stones (x:xs)
-  | fst average == 0 = 0
-  | snd average == False = -1
-  | (possible smaller && possible larger) = optimize smaller (sum larger) 0
-  | otherwise = -1
-  	where 
-      average = avg $ [x]++xs
-      smaller = [a - fst average | a <- [x]++xs, a < fst average]
-      larger = [a - fst average | a <- [x]++xs, a > fst average]
-
-optimize :: [Int] -> Int -> Int -> Int
-optimize small spare result
-  | (null small || spare < 0) = result
-  | (abs (sum small)) /= spare = -1
-  | head small < 0 = optimize ([(head small)+2]++(tail small)) (spare-2) (result+1)
-  | otherwise = optimize (tail small) spare result
-  
-possible :: [Int] -> Bool
-possible [] = True
-possible [x]
-  | rem x 2 == 0 = True
-  | otherwise = False
-possible (x:xs) 
-  | rem x 2 == 0 = possible $ tail [x]++xs
-  | otherwise = False
-
-avg :: [Int] -> (Int, Bool)
-avg [] = (0, True)
-avg [x] = (x, True)
-avg (x:xs) =  
-  (div (sum xxs) (length xxs), rem (sum xxs) (length xxs) == 0) 
-	where xxs = [x] ++ xs
-	      sum' xxs = sum $ take (length xxs) xxs
+game_of_stones xs = 
+  iter xs 0 0 (length xs)
+  where 
+    iter xs spare result count
+      | (null xs && spare == 0) = result
+      | (null xs || count <= 0) = -1
+      | head xs > avg = iter (tail xs) (spare + (head xs - avg)) result count
+      | (head xs < avg && (head xs + 2 <= avg) && spare >= 2) = 
+          iter ([(head xs)+2]++(tail xs)) (spare-2) (result+1) count
+      | head xs == avg = iter (tail xs) spare result count
+      | spare < 2 = iter ((tail xs)++[head xs]) spare result (count-1)
+      | otherwise = -1 
+    avg = div (sum xs) (length xs)
