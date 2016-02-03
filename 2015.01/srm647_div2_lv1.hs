@@ -7,7 +7,13 @@ distinct_elems (x:xs)
   | elem x xs = False
   | otherwise = distinct_elems xs
 
-make_line list = any (\xs -> distinct_elems xs) $ replicateM (length list) list
+-- make_line list = any (\xs -> distinct_elems xs) $ replicateM (length list) list
+
+-- 2. improved 
+-- make_line = inner []
+
+-- inner now (x:xs)
+--   | notElem x now = inner now++[x] xs 
 
 main = do
   -- print $ find (/= 1) [1]
@@ -16,7 +22,7 @@ main = do
   -- print $ replicateM 4 [1,1,2,2,3,3,4,4] -- 8 ^ 4 = 4096 무진장 느리다.
   -- print $ distinct_elems [1,2,3,4,6]
   -- print $ any (\xs -> distinct_elems xs) [[1,1,3], [1,1,3]]
-  print $ replicateM 4 [1,2,3,4] -- poss = 4^4
+  print $ make_line [1,2,3,4] -- poss = 4^4
   print $ make_line [1,1,1,2] -- imposs
   -- print $ make_line [1,1,2,2,3,3,4,4] -- poss
   -- print $ make_line [3,3,3,3,13,13,13,13] -- poss

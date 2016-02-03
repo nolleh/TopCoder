@@ -13,8 +13,10 @@ unfoldr' f b = unfoldr_iter f b 1
             Just (a,new_b) -> a : unfoldr_iter f new_b (i+1)
             Nothing        -> []
 
-num_bougth k t = length $ unfoldr' (\acc i -> if acc <= 0 then Nothing else Just (acc, acc- k*2^(i-1) )) t
-
+num_bougth k t = length $ unfoldr' 
+  (\acc i ->  case () of
+    _ | acc <= 0 -> Nothing 
+      | otherwise -> Just (acc, acc - k*2^(i-1)) ) t
 
 main = do
   print $ unfoldr (\acc-> if acc==0 then Nothing else Just (acc, acc-1)) 10 
