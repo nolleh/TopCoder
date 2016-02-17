@@ -10,7 +10,7 @@ inner_loop(K, Acc, I) ->
 % 100, (300-100*2^0), 2
 % 100, (200-100*2^1), 3
 
-test(1) -> num_bought(100,300); 
+test(1) -> num_bought(100, 300); 
 test(2) -> num_bought(150, 1050);
 test(3) -> num_bought(160, 163680).
 
