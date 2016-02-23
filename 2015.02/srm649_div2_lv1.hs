@@ -3,7 +3,7 @@ check s t
   | length t + 1 /= length s = "Impossible"
   | False == check_res = "Impossible"
   | otherwise = "Possible"
-  where check_res = any (==t) [[s2 | s2 <- delete i s] | i <- [0..length t]]
+  where check_res = any (==t) [delete i s | i <- [0..length t]]
 
 
 delete n xs = let (ys,zs) = splitAt n xs in ys ++ (tail zs)
