@@ -1,9 +1,9 @@
 import Data.List
 
 isCorrect boards = 
-  (== 17) . length $
+  (== 16) . length $
   takeWhile (==True) $
-  scanr (\a _ -> check a) True $ 
+  map check $ 
   boards ++ transpose boards
 
 check :: String -> Bool
